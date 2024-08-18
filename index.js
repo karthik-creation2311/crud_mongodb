@@ -42,6 +42,25 @@ app.get("/api/value/:id", async (req, res) => {
   }
 });
 
+//update the values by id in database
+app.put("/api/value/:id",async(req,res) => {
+  try {
+    const {id} = req.params;
+    const product = await Product.findByIdAndUpdate(id , req.body);
+
+    if(!product){
+      res.status(400).json({message:"prodoct not present"});
+    }
+
+    const productupdate = await Product.findById(id);
+    res.status(200).json(productupdate);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 mongoose
   .connect("mongodb://localhost:27017/crud")
   .then(() => {
