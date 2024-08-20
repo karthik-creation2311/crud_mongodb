@@ -60,6 +60,25 @@ app.put("/api/value/:id",async(req,res) => {
   }
 });
 
+//delete values by id
+app.delete("/api/value/:id",async(req,res) => {
+  try {
+    const{ id } = req.params;
+  const product = await Product.findByIdAndDelete(id);
+
+  if(!product){
+    res.status(400).json({message : "product not found"});
+  }
+
+  res.status(200).json({ message : "product deleted succesfully"});
+    
+  } catch (error) {
+    res.status(500).json({message : error.message});
+  }
+
+
+});
+
 
 mongoose
   .connect("mongodb://localhost:27017/crud")
